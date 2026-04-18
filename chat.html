@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover, interactive-widget=resizes-content" />
+  <title>Aeglane</title>
+  <link rel="icon" href="img/aeglane-logo.png" type="image/png" />
+  <link rel="stylesheet" href="css/styles.css" />
+</head>
+<body class="chat-page">
+
+  <div class="chat-layout">
+    <header class="chat-header">
+      <div class="header-start">
+        <button class="icon-btn" id="constellationToggle" title="Salons">⬡</button>
+        <div class="brand-mark">
+          <div class="brand-bar"></div>
+          <span class="brand-name">aeglane</span>
+        </div>
+      </div>
+      <div class="chat-header-info">
+        <span class="room-hash">#</span>
+        <span id="currentRoomName">…</span>
+        <span class="room-desc" id="currentRoomDesc"></span>
+      </div>
+      <div class="header-end">
+        <button class="icon-btn users-btn" id="usersPanelToggle" title="Connectés">
+          <span class="users-dot">◉</span>
+          <span id="onlineCount">0</span>
+        </button>
+      </div>
+    </header>
+
+    <div class="room-loader" id="roomLoader">
+      <div class="spinner"></div>
+      <p>Chargement du salon…</p>
+    </div>
+
+    <div class="messages" id="messages" style="display:none"></div>
+    <div class="input-meta">
+      <div class="typing-indicator" id="typingIndicator"></div>
+      <span class="char-counter" id="charCounter" style="display:none"></span>
+    </div>
+
+    <div class="message-input-bar">
+      <button class="icon-btn attach-btn" id="attachBtn" title="Envoyer une image">📎</button>
+      <input type="file" id="fileInput" accept="image/*" style="display:none" />
+      <input type="text" id="msgInput" placeholder="Message…" autocomplete="off" maxlength="250" />
+      <button class="send-btn" id="sendBtn">
+        <span class="send-text">Envoyer</span>
+        <span class="send-icon">➤</span>
+      </button>
+    </div>
+  </div>
+
+  <div class="users-panel" id="usersPanel">
+    <div class="users-panel-inner">
+      <div class="panel-header">
+        <span class="panel-title">Connectés</span>
+        <button class="icon-btn" id="usersPanelClose" title="Fermer">✕</button>
+      </div>
+      <ul class="user-list" id="userList"></ul>
+      <div class="users-panel-footer">
+        <img class="self-avatar" id="selfAvatar" src="" alt="" style="display:none" />
+        <span class="self-name" id="selfName">...</span>
+        <button class="icon-btn danger" id="logoutBtn" title="Se déconnecter">⏻</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="panel-backdrop" id="panelBackdrop"></div>
+
+  <div class="constellation-overlay" id="constellationOverlay" style="display:none">
+    <div class="c-presence" id="cPresence">
+      <div class="c-presence-header">◉ Connectés</div>
+      <ul class="c-presence-list" id="cPresenceList"></ul>
+    </div>
+    <div class="constellation-scroll" id="constellationScroll">
+      <svg class="constellation-svg" id="constellationSvg" aria-hidden="true"></svg>
+      <div class="constellation-nodes" id="constellationNodes"></div>
+    </div>
+    <div class="constellation-ui">
+      <button class="constellation-add admin-only" id="constellationAdd" style="display:none">＋ Nouveau salon</button>
+      <button class="c-presence-toggle-btn" id="cPresenceToggle" title="Connectés">◉ <span id="cPresenceCount">0</span></button>
+      <button class="constellation-close-btn" id="constellationClose" title="Fermer">✕</button>
+    </div>
+  </div>
+
+  <div class="lightbox" id="lightbox" style="display:none">
+    <img id="lightboxImg" src="" alt="preview" />
+    <button class="lightbox-close" onclick="document.getElementById('lightbox').style.display='none'">✕</button>
+  </div>
+
+  <div class="modal-overlay" id="createRoomModal" style="display:none">
+    <div class="modal-card">
+      <h3>Nouveau salon</h3>
+      <div class="form-group">
+        <label for="newRoomName">Nom <span class="hint">(minuscules, chiffres, tirets)</span></label>
+        <input type="text" id="newRoomName" placeholder="mon-salon" maxlength="32" />
+      </div>
+      <div class="form-group">
+        <label for="newRoomDesc">Description <span class="hint">(optionnel)</span></label>
+        <input type="text" id="newRoomDesc" placeholder="Description courte" maxlength="80" />
+      </div>
+      <p class="form-error" id="createRoomError"></p>
+      <div class="modal-actions">
+        <button class="btn-primary" id="createRoomBtn">Créer</button>
+        <button class="btn-secondary" id="cancelRoomBtn">Annuler</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+  <script src="js/chat.js"></script>
+</body>
+</html>
